@@ -1,0 +1,52 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Attributes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="inputsForm">
+    <div class="modal-body">
+      <p>Add or edit Fields</p>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-6">
+              <label>Spacing</label>
+            </div>
+            <div class="col-6">
+              <input type="number" name="Spacing" formControlName="Spacing" class="form-control" [(ngModel)]="Spacing">
+              <p class="error-msg custom-error" *ngIf="inputsForm.controls.Spacing.errors.required">
+                This field is required!
+              </p>
+              <p class="error-msg custom-error" *ngIf="inputsForm.controls.Spacing.dirty && inputsForm.get('Spacing').errors.validSpacing">
+                Spacing can only be 16 or 24 inches
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label>Dlarge</label>
+            </div>
+            <div class="col-6">
+              <input type="number" name="DLarge" formControlName="DLarge" class="form-control" [(ngModel)]="DLarge">
+              <p class="error-msg custom-error" *ngIf="inputsForm.controls.DLarge.errors.required && inputsForm.controls.DLarge.dirty">
+                d is required
+              </p>
+              <p class="error-msg custom-error" *ngIf=" inputsForm.controls.DLarge.dirty && inputsForm.get('DLarge').errors.validD">
+                Enter 3.5 or 4 or 6
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="inputsForm.controls.Spacing.errors.required || inputsForm.controls.DLarge.errors.required || inputsForm.get('Spacing').errors.validSpacing || inputsForm.get('DLarge').errors.validD" (click)="c('Close click'); setValues()">Add</button>
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    </div>
+  </form>
+</ng-template>
+<div class="add-layer">
+  <button class="btn btn-sm btn-outline-primary" (click)="open(content)">+</button>
+</div>

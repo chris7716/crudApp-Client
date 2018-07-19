@@ -1,0 +1,119 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Attributes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="inputsForm">
+    <div class="modal-body">
+      <p>Add or edit Fields</p>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row custom-input">
+            <div class="col-4">
+              <label>First Name</label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="FirstName" formControlName="firstName" class="form-control" [(ngModel)]="firstName">
+            </div>
+          </div>
+          <div class="row custom-input" *ngIf="!inputsForm.controls.firstName.valid">
+            <div class="col-4">
+            </div>
+            <div class="col-8">
+              <p class="error-msg custom-error">
+                This field is required!
+              </p>
+            </div>
+          </div>
+          <div class="row custom-input">
+            <div class="col-4">
+              <label>Last Name</label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="LastName" formControlName="lastName" class="form-control" [(ngModel)]="lastName">
+            </div>
+          </div>
+          <div class="row custom-input" *ngIf="!inputsForm.controls.lastName.valid">
+            <div class="col-4">
+            </div>
+            <div class="col-8">
+              <p class="error-msg custom-error">
+                This field is required!
+              </p>
+            </div>
+          </div>
+          <div class="row custom-input">
+            <div class="col-4">
+              <label>Email</label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="Email" formControlName="email" class="form-control" [(ngModel)]="email">
+            </div>
+          </div>
+          <div class="row custom-input" *ngIf="inputsForm.controls.email.errors">
+            <div class="col-4">
+            </div>
+            <div class="col-8">
+              <p class="error-msg custom-error" *ngIf="inputsForm.controls.email.errors.required">
+                This field is required
+              </p>
+              <p class="error-msg custom-error" *ngIf="inputsForm.controls.email.errors.pattern">
+                  Invalid!
+              </p>
+            </div>
+          </div>
+          <div class="row custom-input">
+            <div class="col-4">
+              <label>DOB</label>
+            </div>
+            <div class="input-group col-8">
+              <input class="form-control" placeholder="yyyy-mm-dd" formControlName="dob" name="DOB" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker">
+              <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <img src="../../../assets/calendar.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+              </button>
+            </div>
+          </div>
+          <div class="row custom-input" *ngIf="!inputsForm.controls.dob.valid">
+            <div class="col-4">
+            </div>
+            <div class="col-8">
+              <p class="error-msg custom-error">
+                This field is required
+              </p>
+            </div>
+          </div>
+          <div class="row custom-input">
+            <div class="col-4">
+              <label>Country</label>
+            </div>
+            <div class="col-8 dropdown input-group" ngbDropdown myDrop="ngbDropdown">
+              <input type="text" name="Country" formControlName="country" class="form-control col-6" [(ngModel)]="country" value="{{country}}">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-primary" id="dropdownManual" ngbDropdownToggle></button>
+                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                  <button type="button" class="dropdown-item" *ngFor="let selectedCountry of countries" (click)="onChangeCountry(selectedCountry)">{{selectedCountry}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row custom-input" *ngIf="!inputsForm.controls.country.valid">
+            <div class="col-4">
+            </div>
+            <div class="col-8">
+              <p class="error-msg custom-error">
+                This field is required
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="!inputsForm.valid" (click)="c('Close click'); setValues()">Add</button>
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    </div>
+  </form>
+</ng-template>
+<button class="btn btn-primary" (click)="open(content)">New</button>
