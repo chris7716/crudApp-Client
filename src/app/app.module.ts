@@ -13,7 +13,10 @@ import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegModalComponent } from './registration/reg-modal/reg-modal.component';
+import { EditRegModalComponent } from './registration/edit-reg-modal/edit-reg-modal.component';
+import { AlertComponent } from './registration/alert/alert.component';
 //import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 
 @NgModule({
   declarations: [
@@ -22,16 +25,20 @@ import { RegModalComponent } from './registration/reg-modal/reg-modal.component'
     HomeComponent,
     RegistrationComponent,
     ModalComponent,
-    RegModalComponent
+    RegModalComponent,
+    EditRegModalComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Angular2FontawesomeModule
   ],
   providers: [],
+  entryComponents: [RegModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

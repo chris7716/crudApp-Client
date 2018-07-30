@@ -22,10 +22,12 @@
           <td>{{ registration.email }}</td>
           <td>{{ registration.country }}</td>
           <td>
-            <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+            <!-- <button type="button" class="btn btn-info" (click)="test()">Edit</button> !-->
+            <app-edit-reg-modal [registration]=registration (selectedRow)=i (passData)="getDataToEdit($event)"></app-edit-reg-modal>
           </td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+            <!-- <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button> !-->
+            <app-alert [selectedId]=registration.id (passData)="getDataToDelete($event)"></app-alert>
           </td>
         </tr>
       </tbody>

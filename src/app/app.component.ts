@@ -9,8 +9,4 @@ export class AppComponent {
   length: any;
   spacing: any;
   title = 'app';
-  getData(message: any) {
-    this.spacing = message.Spacing;
-    this.length = message.Length;
-  }
 }

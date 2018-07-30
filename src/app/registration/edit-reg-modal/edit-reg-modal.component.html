@@ -1,6 +1,6 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">New Registration</h4>
+    <h4 class="modal-title">Edit Registration</h4>
     <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -59,7 +59,7 @@
                 This field is required
               </p>
               <p class="error-msg custom-error" *ngIf="inputsForm.controls.email.errors.pattern">
-                  Invalid!
+                Invalid!
               </p>
             </div>
           </div>
@@ -110,9 +110,10 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" [disabled]="!inputsForm.valid" (click)="c('Close click'); setValues()">Add</button>
+      <button type="button" class="btn btn-secondary" [disabled]="!inputsForm.valid" (click)="c('Close click'); setValues()">Save</button>
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
     </div>
   </form>
 </ng-template>
-<button class="btn btn-primary" (click)="open(content)">New</button>
+
+<button type="button" class="btn btn-info" (click)="open(content)">Edit</button>

@@ -1,11 +1,14 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { NgbModal, ModalDismissReasons, NgbModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Console } from '@angular/core/src/console';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgbDateStruct, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Input } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 //Model class for user input data
 class Registration {
   constructor(
+    public id: number,
+    public index: number,
     public firstName: string = '',
     public lastName: string = '',
     public dob: NgbDateStruct = null,
@@ -16,11 +19,12 @@ class Registration {
 }
 
 @Component({
-  selector: 'app-reg-modal',
-  templateUrl: './reg-modal.component.html',
-  styleUrls: ['./reg-modal.component.css']
+  selector: 'app-edit-reg-modal',
+  templateUrl: './edit-reg-modal.component.html',
+  styleUrls: ['./edit-reg-modal.component.css']
 })
-export class RegModalComponent implements OnInit {
+
+export class EditRegModalComponent implements OnInit {
 
   //It is required for modal settings
   closeResult: string;
@@ -37,7 +41,7 @@ export class RegModalComponent implements OnInit {
   openModal = false;
 
   //It is required to maintain the country list on dropdown
-  countries: string[] = ['Sri Lanka', 'US', 'UK', 'India', 'UAE'];
+  countries: string[] = ['SRI LANKA', 'US', 'UK', 'India', 'UAE'];
 
   //It is required to validate the email
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
@@ -47,15 +51,21 @@ export class RegModalComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private fb: FormBuilder) { }
 
-  ngOnInit(): void {
+  //It is required to bind registration model from the registration parent component 
+  @Input() registration: Registration;
 
-    //Initialization of form
+  ngOnInit() {
+
+    //Initializes the country textbox value into the value recieved from registration model
+    this.country = this.registration.country;
+
+    //Initializes the form
     this.inputsForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-      country: ['', [Validators.required]],
-      dob: ['', [Validators.required]]
+      firstName: [this.registration.firstName, [Validators.required]],
+      lastName: [this.registration.lastName, [Validators.required]],
+      email: [this.registration.email, [Validators.required, Validators.pattern(this.emailPattern)]],
+      country: [this.registration.country, [Validators.required]],
+      dob: [this.registration.dob, [Validators.required]]
     });
   }
 
@@ -82,18 +92,27 @@ export class RegModalComponent implements OnInit {
 
   //It is required to get the value of the selected country on dropdown
   onChangeCountry(country: string) {
+
+    //Assigns 'Country' form value to the selected dropdown country
     this.inputsForm.value.country = country;
+
+    //Assigns country variable to the selected dropdown country
     this.country = country;
-    console.log(this.inputsForm.value.country)
+
   }
 
   //It is required to pass data to the parent component
   @Output()
   passData: EventEmitter<Object> = new EventEmitter();
   setValues() {
+
+    //Assigns form values to the object i.e. to be sent to the parent
     const reg: Registration = Object.assign({}, this.inputsForm.value);
-    this.inputsForm.reset();
-    this.country = "";
+
+    //Assigns id of the recieved object to the object i.e. to be sent to the parent
+    reg.id = this.registration.id
+
+    //Passes data to the parent
     this.passData.emit(reg)
   }
 }
